@@ -1,0 +1,5 @@
+target/
+src/test/
+src/main/resources/
+.idea/
+MongoDBApplication.iml
