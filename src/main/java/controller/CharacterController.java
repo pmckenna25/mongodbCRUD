@@ -1,5 +1,6 @@
 package controller;
 
+import model.PropertyModel;
 import repository.MongodbCharacterRepo;
 import model.CharacterClass;
 import javax.ws.rs.Consumes;
@@ -10,6 +11,8 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("character")
@@ -17,9 +20,12 @@ public class CharacterController {
 
     private MongodbCharacterRepo characterQuery;
 
-    public CharacterController(){
+    public CharacterController() throws IOException, URISyntaxException {
 
-        characterQuery = new MongodbCharacterRepo("people","characters");
+        PropertyModel propertyModel = new PropertyModel();
+
+        characterQuery = new MongodbCharacterRepo(propertyModel.getProperties().getProperty("my.dbname"),
+                propertyModel.getProperties().getProperty("my.character.collection"));
     }
     @GET
     @Path("/list")

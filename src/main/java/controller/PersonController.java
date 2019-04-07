@@ -1,6 +1,7 @@
 package controller;
 
 import model.Person;
+import model.PropertyModel;
 import repository.MongodbPersonRepo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
@@ -10,16 +11,20 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("person")
 public class PersonController {
-
     private MongodbPersonRepo peopleQuery;
 
-    public PersonController(){
+    public PersonController() throws IOException, URISyntaxException {
 
-        peopleQuery = new MongodbPersonRepo("people", "person");
+        PropertyModel propertyModel = new PropertyModel();
+
+        peopleQuery = new MongodbPersonRepo(propertyModel.getProperties().getProperty("my.dbname"),
+                propertyModel.getProperties().getProperty("my.person.collection"));
     }
 
     @GET

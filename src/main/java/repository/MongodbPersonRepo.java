@@ -5,9 +5,12 @@ import com.mongodb.MongoClientOptions;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
 import model.Person;
+import model.PropertyModel;
 import org.bson.codecs.configuration.CodecRegistry;
 import org.bson.codecs.pojo.PojoCodecProvider;
 
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 import static com.mongodb.client.model.Filters.eq;
@@ -19,13 +22,16 @@ public class MongodbPersonRepo {
 
     private static MongoCollection<Person> collection;
 
-    public MongodbPersonRepo(String dbName, String collectionName){
+    public MongodbPersonRepo(String dbName, String collectionName) throws IOException, URISyntaxException {
+
+        PropertyModel propertyModel = new PropertyModel();
 
         CodecRegistry pojoCodecRegistry = fromRegistries(MongoClient.getDefaultCodecRegistry(),
                 fromProviders(PojoCodecProvider.builder().automatic(true).build()));
 
-        MongoClient mongoClient = new MongoClient("192.168.0.24", MongoClientOptions
+        MongoClient mongoClient = new MongoClient(propertyModel.getProperties().getProperty("my.mongodb"), MongoClientOptions
                 .builder().codecRegistry(pojoCodecRegistry).build());
+
 
         MongoDatabase database = mongoClient.getDatabase(dbName);
 

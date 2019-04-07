@@ -1,5 +1,6 @@
 package controller;
 
+import model.PropertyModel;
 import repository.MongodbAPIRepo;
 import repository.MongodbCharacterRepo;
 import repository.MongodbPersonRepo;
@@ -12,6 +13,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -22,11 +25,18 @@ public class CrossCollectionController {
     private MongodbCharacterRepo characterQuery;
     private MongodbAPIRepo apiQuery;
 
-    public CrossCollectionController(){
+    public CrossCollectionController() throws IOException, URISyntaxException {
 
-        peopleQuery = new MongodbPersonRepo("people", "person");
-        characterQuery = new MongodbCharacterRepo("people","characters");
-        apiQuery = new MongodbAPIRepo("people", "apikeys");
+        PropertyModel propertyModel = new PropertyModel();
+
+        peopleQuery = new MongodbPersonRepo(propertyModel.getProperties().getProperty("my.dbname"),
+                propertyModel.getProperties().getProperty("my.person.collection"));
+
+        characterQuery = new MongodbCharacterRepo(propertyModel.getProperties().getProperty("my.dbname"),
+                propertyModel.getProperties().getProperty("my.character.collection"));
+
+        apiQuery = new MongodbAPIRepo(propertyModel.getProperties().getProperty("my.dbname"),
+                propertyModel.getProperties().getProperty("my.api.collection"));
     }
 
     @GET
