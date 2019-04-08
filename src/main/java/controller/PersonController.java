@@ -1,5 +1,6 @@
 package controller;
 
+import model.CharacterClass;
 import model.Person;
 import model.PropertyModel;
 import repository.MongodbPersonRepo;
@@ -9,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -35,6 +37,15 @@ public class PersonController {
 
         return peopleQuery.getAll();
     }
+
+    @GET
+    @Path("/{email}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Person getOneCharacter(@PathParam("email") String email){
+
+        return peopleQuery.findPersonByEmail(email);
+    }
+
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public void addNewPerson(Person person){

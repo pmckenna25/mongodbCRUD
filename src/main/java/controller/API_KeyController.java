@@ -1,5 +1,6 @@
 package controller;
 
+import model.CharacterClass;
 import model.PropertyModel;
 import repository.MongodbAPIRepo;
 import model.API_Key;
@@ -9,6 +10,7 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.List;
@@ -33,6 +35,14 @@ public class API_KeyController {
     public List<API_Key> getAllKeys(){
 
         return apiQuery.getAll();
+    }
+
+    @GET
+    @Path("/{email}")
+    @Produces(MediaType.APPLICATION_JSON)
+    public API_Key getOneCharacter(@PathParam("email") String email){
+
+        return apiQuery.findOne(email);
     }
 
     @POST
