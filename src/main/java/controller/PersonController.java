@@ -1,6 +1,5 @@
 package controller;
 
-import model.CharacterClass;
 import model.Person;
 import model.PropertyModel;
 import repository.MongodbPersonRepo;
@@ -13,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("person")
@@ -48,22 +48,40 @@ public class PersonController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewPerson(Person person){
+    public Response addNewPerson(Person person){
 
         peopleQuery.addOne(person);
+        String result = "{\"Response\" : \""+person.getEmail()+" added\"}";
+
+        return Response.status(201)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updatePerson(Person person){
+    public Response updatePerson(Person person){
 
         peopleQuery.updateOne(person);
+        String result = "{\"Response\" : \""+person.getEmail()+" updated\"}";
+
+        return Response.status(200)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    public void removePerson(Person person){
+    public Response removePerson(Person person){
 
         peopleQuery.delete(person);
+        String result = "{\"Response\" : \""+person.getEmail()+" deleted\"}";
+
+        return Response.status(200)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 }

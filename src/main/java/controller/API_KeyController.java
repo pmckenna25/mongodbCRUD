@@ -1,6 +1,5 @@
 package controller;
 
-import model.CharacterClass;
 import model.PropertyModel;
 import repository.MongodbAPIRepo;
 import model.API_Key;
@@ -13,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("key")
@@ -47,22 +47,37 @@ public class API_KeyController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewKey(API_Key key){
+    public Response addNewKey(API_Key key){
 
         apiQuery.addOne(key);
+        String result = "{\"Response\" : \""+ key.getEmail()+" added\"}";
+        return Response.status(201)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateCharacter(API_Key key){
+    public Response updateCharacter(API_Key key){
 
         apiQuery.updateOne(key);
+        String result = "{\"Response\" : \""+ key.getEmail()+" updated\"}";
+        return Response.status(204)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    public void removeCharacter(API_Key key){
+    public Response removeCharacter(API_Key key){
 
         apiQuery.delete(key);
+        String result = "{\"Response\" : \""+ key.getEmail()+" deleted\"}";
+        return Response.status(204)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 }

@@ -3,7 +3,6 @@ package repository;
 
 import com.mongodb.client.MongoCollection;
 import model.CharacterClass;
-import model.Person;
 
 import java.util.LinkedList;
 import java.util.List;

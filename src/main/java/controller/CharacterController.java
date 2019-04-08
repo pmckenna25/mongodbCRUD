@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("character")
@@ -46,22 +47,37 @@ public class CharacterController {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public void addNewCharacter(CharacterClass character){
+    public Response addNewCharacter(CharacterClass character){
 
         characterQuery.addOne(character);
+        String result = "{\"Response\" : \""+character.getCharacterId()+" added\"}";
+        return Response.status(201)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void updateCharacter(CharacterClass character){
+    public Response updateCharacter(CharacterClass character){
 
         characterQuery.updateOne(character);
+        String result = "{\"Response\" : \""+character.getCharacterId()+" updated\"}";
+        return Response.status(204)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
-    public void removeCharacter(CharacterClass character){
+    public Response removeCharacter(CharacterClass character){
 
         characterQuery.delete(character);
+        String result = "{\"Response\" : \""+character.getCharacterId()+" deleted\"}";
+        return Response.status(204)
+                .entity(result)
+                .type(MediaType.APPLICATION_JSON)
+                .build();
     }
 }
