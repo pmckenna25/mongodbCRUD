@@ -96,7 +96,7 @@
 
 **Definition**
 
-`PUT /person`
+`DELETE /person`
 
 **Arguments**
 
@@ -112,5 +112,130 @@
 ```json
 {
   "Response": "<user email> deleted"
+}
+```
+
+### List all created characters
+
+**Definition**
+
+`GET /character/list`
+
+**Response**
+
+-`200 OK` on success
+
+```json
+[
+    {
+        "attributes": {
+            "constitution": 20,
+            "dexterity": 13,
+            "strength": 18
+        },
+        "characterClass": "Warrior",
+        "characterId": 102,
+        "characterName": "Targon Steelwind",
+        "level": 5
+    }
+]
+```
+### Find one character by id
+
+**Definition**
+
+`GET /character/<characterId>` e.g. <characterId> = 102
+
+**Response**
+
+-`200 OK` on success
+
+```json
+{
+    "attributes": {
+        "constitution": 20,
+        "dexterity": 13,
+        "strength": 18
+    },
+    "characterClass": "Warrior",
+    "characterId": 102,
+    "characterName": "Targon Steelwind",
+    "level": 5
+}
+```
+### Create new character
+
+**Definition**
+
+`POST /character`
+
+**Arguments**
+
+- `"attributes":"constitution":int` statistic which effects the characters' health
+- `"attributes":"dexterity":int` statistic which effects the characters' speed and dodge
+- `"attributes":"strength":int` statistic which effects the characters' damage output
+- `"characterClass":string` the name of the type of character
+- `"characterId":int` unique character identifier
+- `"characterName":string` character name
+- `"level":int` the amount of experience gathered by the character
+
+**Response**
+
+`201 Created` on success
+
+```json
+{
+  "Response": "<characterId> added"
+}
+```
+### Update user details
+
+**Definition**
+
+`PUT /character`
+
+**Arguments**
+
+- `"attributes":"constitution":int` statistic which effects the characters' health
+- `"attributes":"dexterity":int` statistic which effects the characters' speed and dodge
+- `"attributes":"strength":int` statistic which effects the characters' damage output
+- `"characterClass":string` the name of the type of character
+- `"characterId":int` Must be an existing characterId
+- `"characterName":string` character name
+- `"level":int` the amount of experience gathered by the character
+
+**Response**
+
+`200 OK` on success
+
+```json
+{
+  "Response": "<characterId> updated"
+}
+```
+
+### Delete new users
+
+**Definition**
+
+`DELETE /character`
+
+**Arguments**
+
+- `"attributes":"constitution":int` statistic which effects the characters' health
+- `"attributes":"dexterity":int` statistic which effects the characters' speed and dodge
+- `"attributes":"strength":int` statistic which effects the characters' damage output
+- `"characterClass":string` the name of the type of character
+- `"characterId":int` Must be an existing characterId
+- `"characterName":string` character name
+- `"level":int` the amount of experience gathered by the character
+
+**Response**
+
+`200 OK` on success
+
+```json
+{
+  "Response": "<characterId> deleted"
 }
 ```
