@@ -92,7 +92,7 @@
 }
 ```
 
-### Delete new users
+### Delete user
 
 **Definition**
 
@@ -188,7 +188,7 @@
   "Response": "<characterId> added"
 }
 ```
-### Update user details
+### Update character
 
 **Definition**
 
@@ -214,7 +214,7 @@
 }
 ```
 
-### Delete new users
+### Delete character
 
 **Definition**
 
