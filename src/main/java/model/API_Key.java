@@ -1,7 +1,6 @@
 package model;
 
 import java.util.List;
-import java.util.Objects;
 
 public final class API_Key {
 
@@ -40,18 +39,5 @@ public final class API_Key {
 
     public void setCharacters(List<Integer> characters) {
         this.characters = characters;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof API_Key)) return false;
-        API_Key key = (API_Key) o;
-        return Objects.equals(getApi(), key.getApi());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getApi());
     }
 }

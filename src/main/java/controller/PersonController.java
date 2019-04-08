@@ -11,20 +11,21 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("person")
 public class PersonController {
+
     private MongodbPersonRepo peopleQuery;
 
-    public PersonController() throws IOException, URISyntaxException {
+    public PersonController() {
 
         PropertyModel propertyModel = new PropertyModel();
 
-        peopleQuery = new MongodbPersonRepo(propertyModel.getProperties().getProperty("my.dbname"),
-                propertyModel.getProperties().getProperty("my.person.collection"));
+        String dbName = propertyModel.getDatabaseName();
+        String collectionName = propertyModel.getProperties().getProperty("my.person.collection");
+
+        peopleQuery = new MongodbPersonRepo(dbName, collectionName);
     }
 
     @GET

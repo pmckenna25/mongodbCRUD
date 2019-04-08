@@ -1,7 +1,5 @@
 package model;
 
-import java.util.Objects;
-
 public final class CharacterClass {
 
     private int characterId;
@@ -60,18 +58,5 @@ public final class CharacterClass {
 
     public void setCharacterName(String characterName) {
         this.characterName = characterName;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof CharacterClass)) return false;
-        CharacterClass that = (CharacterClass) o;
-        return getCharacterId() == that.getCharacterId();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getCharacterId());
     }
 }

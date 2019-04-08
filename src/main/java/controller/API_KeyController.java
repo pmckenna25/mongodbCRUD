@@ -11,8 +11,6 @@ import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.List;
 
 @Path("key")
@@ -20,12 +18,14 @@ public class API_KeyController {
 
     private MongodbAPIRepo apiQuery;
 
-    public API_KeyController() throws IOException, URISyntaxException {
+    public API_KeyController() {
 
         PropertyModel propertyModel = new PropertyModel();
 
-        apiQuery = new MongodbAPIRepo(propertyModel.getProperties().getProperty("my.dbname"),
-                propertyModel.getProperties().getProperty("my.api.collection"));
+        String dbName = propertyModel.getDatabaseName();
+        String collectionName = propertyModel.getProperties().getProperty("my.api.collection");
+
+        apiQuery = new MongodbAPIRepo(dbName, collectionName);
     }
     @GET
     @Path("/list")

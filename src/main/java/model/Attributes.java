@@ -1,6 +1,6 @@
 package model;
 
-public final class Attributes {
+public final class Attributes{
 
     private int strength;
     private int constitution;

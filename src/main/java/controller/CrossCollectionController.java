@@ -7,14 +7,11 @@ import repository.MongodbPersonRepo;
 import model.API_Key;
 import model.CharacterClass;
 import model.Person;
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -25,26 +22,19 @@ public class CrossCollectionController {
     private MongodbCharacterRepo characterQuery;
     private MongodbAPIRepo apiQuery;
 
-    public CrossCollectionController() throws IOException, URISyntaxException {
+    public CrossCollectionController(){
 
         PropertyModel propertyModel = new PropertyModel();
+        String dbName = propertyModel.getDatabaseName();
+        String personCollection = propertyModel.getProperties().getProperty("my.person.collection");
+        String characterCollection = propertyModel.getProperties().getProperty("my.character.collection");
+        String apiCollection = propertyModel.getProperties().getProperty("my.api.collection");
 
-        peopleQuery = new MongodbPersonRepo(propertyModel.getProperties().getProperty("my.dbname"),
-                propertyModel.getProperties().getProperty("my.person.collection"));
+        peopleQuery = new MongodbPersonRepo(dbName, personCollection);
 
-        characterQuery = new MongodbCharacterRepo(propertyModel.getProperties().getProperty("my.dbname"),
-                propertyModel.getProperties().getProperty("my.character.collection"));
+        characterQuery = new MongodbCharacterRepo(dbName, characterCollection);
 
-        apiQuery = new MongodbAPIRepo(propertyModel.getProperties().getProperty("my.dbname"),
-                propertyModel.getProperties().getProperty("my.api.collection"));
-    }
-
-    @GET
-    @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
-    public List<CharacterClass> getPersonCharacters(String json){
-
-        return getAllPersonOwnedCharacters(peopleQuery.findPersonByJson(json));
+        apiQuery = new MongodbAPIRepo(dbName, apiCollection);
     }
 
     @GET
