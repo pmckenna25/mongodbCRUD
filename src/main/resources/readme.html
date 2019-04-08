@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<h1 id="mongodbcrud">mongodbCRUD</h1>
+
+<h2 id="conceptingmongodbforpersonalproject">Concepting Mongodb for personal project</h2>
+
+<ul>
+    <li>MongoDB is a document based NoSQL database. </li>
+
+    <li>Currently evaluating its potential for a future applications</li>
+
+    <li>Dependent on a MongoDB connection</li>
+
+    <li>~~Connection info, database name and collections have all been hardcoded~~
+
+
+        <ul>
+            <li>07/04/2019 update: added resources folder with system.properties file, removed the hardcoding for portability</li></ul>
+    </li>
+</ul>
+
+<h3 id="listallregisteredusers">List all registered users</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>GET /person/list</code></p>
+
+<p><strong>Response</strong></p>
+
+<p>-<code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">[
+    {
+        "email": "pmckenna25@gmail.co.uk",
+        "forename": "Jimmy",
+        "password": "6aeDFAgh894",
+        "surname": "John"
+    }
+]
+</code></pre>
+
+<h3 id="findoneregistereduser">Find one registered user</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>GET /person/&lt;email&gt;</code> e.g. email = pmckenna25@gmail.co.uk</p>
+
+<p><strong>Response</strong></p>
+
+<p>-<code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+    "email": "pmckenna25@gmail.co.uk",
+    "forename": "Jimmy",
+    "password": "6aeDFAgh894",
+    "surname": "John"
+}
+</code></pre>
+
+<h3 id="registernewuser">Register new user</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>POST /person</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"email":string</code> the unique identifier for each account</li>
+
+    <li><code>"forename":string</code> the users first name</li>
+
+    <li><code>"password":string</code> the users password hash</li>
+
+    <li><code>"surname":string</code> the users second name</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>201 Created</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;user email&gt; added"
+}
+</code></pre>
+
+<h3 id="updateuserdetails">Update user details</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>PUT /person</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"email":string</code> Must be an existing email address</li>
+
+    <li><code>"forename":string</code> the users first name</li>
+
+    <li><code>"password":string</code> the users password hash</li>
+
+    <li><code>"surname":string</code> the users second name</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;user email&gt; updated"
+}
+</code></pre>
+
+<h3 id="deleteuser">Delete user</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>DELETE /person</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"email":string</code> Must be an existing email address</li>
+
+    <li><code>"forename":string</code> the users first name</li>
+
+    <li><code>"password":string</code> the users password hash</li>
+
+    <li><code>"surname":string</code> the users second name</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;user email&gt; deleted"
+}
+</code></pre>
+
+<h3 id="listallcreatedcharacters">List all created characters</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>GET /character/list</code></p>
+
+<p><strong>Response</strong></p>
+
+<p>-<code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">[
+    {
+        "attributes": {
+            "constitution": 20,
+            "dexterity": 13,
+            "strength": 18
+        },
+        "characterClass": "Warrior",
+        "characterId": 102,
+        "characterName": "Targon Steelwind",
+        "level": 5
+    }
+]
+</code></pre>
+
+<h3 id="findonecharacterbyid">Find one character by id</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>GET /character/&lt;characterId&gt;</code> e.g. characterId = 102</p>
+
+<p><strong>Response</strong></p>
+
+<p>-<code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+    "attributes": {
+        "constitution": 20,
+        "dexterity": 13,
+        "strength": 18
+    },
+    "characterClass": "Warrior",
+    "characterId": 102,
+    "characterName": "Targon Steelwind",
+    "level": 5
+}
+</code></pre>
+
+<h3 id="createnewcharacter">Create new character</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>POST /character</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"attributes":"constitution":int</code> statistic which effects the characters' health</li>
+
+    <li><code>"attributes":"dexterity":int</code> statistic which effects the characters' speed and dodge</li>
+
+    <li><code>"attributes":"strength":int</code> statistic which effects the characters' damage output</li>
+
+    <li><code>"characterClass":string</code> the name of the type of character</li>
+
+    <li><code>"characterId":int</code> unique character identifier</li>
+
+    <li><code>"characterName":string</code> character name</li>
+
+    <li><code>"level":int</code> the amount of experience gathered by the character</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>201 Created</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;characterId&gt; added"
+}
+</code></pre>
+
+<h3 id="updatecharacter">Update character</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>PUT /character</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"attributes":"constitution":int</code> statistic which effects the characters' health</li>
+
+    <li><code>"attributes":"dexterity":int</code> statistic which effects the characters' speed and dodge</li>
+
+    <li><code>"attributes":"strength":int</code> statistic which effects the characters' damage output</li>
+
+    <li><code>"characterClass":string</code> the name of the type of character</li>
+
+    <li><code>"characterId":int</code> Must be an existing characterId</li>
+
+    <li><code>"characterName":string</code> character name</li>
+
+    <li><code>"level":int</code> the amount of experience gathered by the character</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;characterId&gt; updated"
+}
+</code></pre>
+
+<h3 id="deletecharacter">Delete character</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>DELETE /character</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"attributes":"constitution":int</code> statistic which effects the characters' health</li>
+
+    <li><code>"attributes":"dexterity":int</code> statistic which effects the characters' speed and dodge</li>
+
+    <li><code>"attributes":"strength":int</code> statistic which effects the characters' damage output</li>
+
+    <li><code>"characterClass":string</code> the name of the type of character</li>
+
+    <li><code>"characterId":int</code> Must be an existing characterId</li>
+
+    <li><code>"characterName":string</code> character name</li>
+
+    <li><code>"level":int</code> the amount of experience gathered by the character</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;characterId&gt; deleted"
+}
+</code></pre>
+
+<h3 id="listallcreatedkeys">List all created keys</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>GET /key/list</code></p>
+
+<p><strong>Response</strong></p>
+
+<p>-<code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">[
+    {
+        "api": "7ghRFde89",
+        "characters": [
+            101,
+            102
+        ],
+        "email": "pmckenna25@hotmail.co.uk"
+    }
+]
+</code></pre>
+
+<h3 id="findonekeybyemail">Find one key by email</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>GET /key/&lt;email&gt;</code> e.g. email = pmckenna25@hotmail.co.uk</p>
+
+<p><strong>Response</strong></p>
+
+<p>-<code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+    "api": "7ghRFde89",
+    "characters": [
+        101,
+        102
+    ],
+    "email": "pmckenna25@hotmail.co.uk"
+}
+</code></pre>
+
+<h3 id="createnewkey">Create new key</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>POST /key</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"api":string</code> mock api key</li>
+
+    <li><code>"character":int[]</code> unique characterId array of all characters associated with that email</li>
+
+    <li><code>"email":string</code> unique email address person identifier</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>201 Created</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;email&gt; added"
+}
+</code></pre>
+
+<h3 id="updatekey">Update key</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>PUT /key</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"api":string</code> mock api key</li>
+
+    <li><code>"character":int[]</code> unique characterId array of all characters associated with that email</li>
+
+    <li><code>"email":string</code> must be an existing email</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;key&gt; updated"
+}
+</code></pre>
+
+<h3 id="deletekey">Delete key</h3>
+
+<p><strong>Definition</strong></p>
+
+<p><code>DELETE /key</code></p>
+
+<p><strong>Arguments</strong></p>
+
+<ul>
+    <li><code>"api":string</code> mock api key</li>
+
+    <li><code>"character":int[]</code> unique characterId array of all characters associated with that email</li>
+
+    <li><code>"email":string</code> must be an existing email</li>
+</ul>
+
+<p><strong>Response</strong></p>
+
+<p><code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">{
+  "Response": "&lt;key&gt; deleted"
+}
+</code></pre>
+
+<h2 id="listallcharactersassociatedwitharegisteredemail">List all characters associated with a registered email</h2>
+
+<p><strong>Definition</strong></p>
+
+<p><code>GET /people/characters/&lt;email&gt;</code> e.g. pmckenna25@hotmail.co.uk</p>
+
+<p><strong>Response</strong></p>
+
+<p><code>200 OK</code> on success</p>
+
+<pre><code class="json language-json">[
+    {
+        "attributes": {
+            "constitution": 20,
+            "dexterity": 13,
+            "strength": 18
+        },
+        "characterClass": "Paladin",
+        "characterId": 101,
+        "characterName": "Ezekiel of the Dawn",
+        "level": 5
+    },
+    {
+        "attributes": {
+            "constitution": 20,
+            "dexterity": 13,
+            "strength": 18
+        },
+        "characterClass": "Warrior",
+        "characterId": 102,
+        "characterName": "Targon Steelwind",
+        "level": 5
+    }
+]
+</code></pre>>
