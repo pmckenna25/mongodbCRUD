@@ -13,7 +13,7 @@
 
 **Definition**
 
-`GET /person/list
+`GET /person/list`
 
 **Response**
 
