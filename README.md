@@ -239,3 +239,147 @@
   "Response": "<characterId> deleted"
 }
 ```
+
+### List all created keys
+
+**Definition**
+
+`GET /key/list`
+
+**Response**
+
+-`200 OK` on success
+
+```json
+[
+    {
+        "api": "7ghRFde89",
+        "characters": [
+            101,
+            102
+        ],
+        "email": "pmckenna25@hotmail.co.uk"
+    }
+]
+```
+### Find one key by email
+
+**Definition**
+
+`GET /key/<email>` e.g. <email> = pmckenna25@hotmail.co.uk
+
+**Response**
+
+-`200 OK` on success
+
+```json
+{
+    "api": "7ghRFde89",
+    "characters": [
+        101,
+        102
+    ],
+    "email": "pmckenna25@hotmail.co.uk"
+}
+```
+### Create new key
+
+**Definition**
+
+`POST /key`
+
+**Arguments**
+
+- `"api":string` mock api key
+- `"character":int[]` unique characterId array of all characters associated with that email
+- `"email":string` unique email address person identifier
+
+**Response**
+
+`201 Created` on success
+
+```json
+{
+  "Response": "<email> added"
+}
+```
+### Update key
+
+**Definition**
+
+`PUT /key`
+
+**Arguments**
+
+- `"api":string` mock api key
+- `"character":int[]` unique characterId array of all characters associated with that email
+- `"email":string` must be an existing email
+
+**Response**
+
+`200 OK` on success
+
+```json
+{
+  "Response": "<key> updated"
+}
+```
+
+### Delete key
+
+**Definition**
+
+`DELETE /key`
+
+**Arguments**
+
+- `"api":string` mock api key
+- `"character":int[]` unique characterId array of all characters associated with that email
+- `"email":string` must be an existing email
+
+**Response**
+
+`200 OK` on success
+
+```json
+{
+  "Response": "<key> deleted"
+}
+```
+
+## List all characters associated with a registered email
+
+**Definition**
+
+`GET /people/characters/<email>` e.g. pmckenna25@hotmail.co.uk
+
+**Response**
+
+`200 OK` on success
+
+```json
+[
+    {
+        "attributes": {
+            "constitution": 20,
+            "dexterity": 13,
+            "strength": 18
+        },
+        "characterClass": "Paladin",
+        "characterId": 101,
+        "characterName": "Ezekiel of the Dawn",
+        "level": 5
+    },
+    {
+        "attributes": {
+            "constitution": 20,
+            "dexterity": 13,
+            "strength": 18
+        },
+        "characterClass": "Warrior",
+        "characterId": 102,
+        "characterName": "Targon Steelwind",
+        "level": 5
+    }
+]
+```
