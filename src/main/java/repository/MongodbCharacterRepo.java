@@ -4,6 +4,7 @@ package repository;
 import com.mongodb.client.MongoCollection;
 import model.CharacterClass;
 
+import javax.ws.rs.NotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import static com.mongodb.client.model.Filters.eq;
@@ -23,7 +24,12 @@ public class MongodbCharacterRepo {
 
     public List<CharacterClass> getAll(){
 
-        return collection.find().into(new LinkedList<>());
+        List<CharacterClass> fullList = collection.find().into(new LinkedList<>());
+        if(fullList.size() == 0){
+            throw new NotFoundException();
+        }else{
+            return fullList;
+        }
     }
 
     public CharacterClass findOne(String characterId){
@@ -34,7 +40,7 @@ public class MongodbCharacterRepo {
                 return characterClass;
             }
         }
-        return null;
+        throw new NotFoundException();
     }
 
     public void addOne(CharacterClass character){
@@ -44,11 +50,19 @@ public class MongodbCharacterRepo {
 
     public void delete(CharacterClass character){
 
-        collection.deleteOne(eq("characterId", character.getCharacterId()));
+        if(collection.find(eq("characterId", character.getCharacterId())).into(new LinkedList<>()).size() == 0){
+            throw new NotFoundException();
+        }else {
+            collection.deleteOne(eq("characterId", character.getCharacterId()));
+        }
     }
 
     public void updateOne(CharacterClass character){
 
-        collection.replaceOne(eq("characterId", character.getCharacterId()), character);
+        if(collection.find(eq("email", character.getCharacterId())).into(new LinkedList<>()).size() == 0){
+            throw new NotFoundException();
+        }else {
+            collection.replaceOne(eq("characterId", character.getCharacterId()), character);
+        }
     }
 }

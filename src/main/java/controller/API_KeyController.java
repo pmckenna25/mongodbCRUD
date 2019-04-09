@@ -6,6 +6,7 @@ import model.API_Key;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -32,50 +33,109 @@ public class API_KeyController {
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<API_Key> getAllKeys(){
+    public Response getAllKeys(){
 
-        return apiQuery.getAll();
+        try {
+
+            List<API_Key> results = apiQuery.getAll();
+            return Response.ok(results, MediaType.APPLICATION_JSON)
+                    .build();
+
+        }catch(NotFoundException e){
+
+            return get404Response("");
+        }
     }
 
     @GET
     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public API_Key getOneCharacter(@PathParam("email") String email){
+    public Response getOneKey(@PathParam("email") String email){
 
-        return apiQuery.findOne(email);
+        try {
+
+            API_Key result = apiQuery.findOne(email);
+            return Response.ok(result, MediaType.APPLICATION_JSON)
+                    .build();
+
+        }catch(NotFoundException e){
+
+            return get404Response(email);
+        }
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addNewKey(API_Key key){
 
-        apiQuery.addOne(key);
-        String result = "{\"Response\" : \""+ key.getEmail()+" added\"}";
-        return Response.status(201)
-                .entity(result)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+        if(!checkKey(key)){
+
+            String result = "{\"Failed\" : \"All fields required\"}";
+            return Response.status(500)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+
+        }else {
+
+            apiQuery.addOne(key);
+            String result = "{\"Success\" : \"" + key.getEmail() + " added\"}";
+
+            return Response.status(201)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
     }
+
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateCharacter(API_Key key){
 
-        apiQuery.updateOne(key);
-        String result = "{\"Response\" : \""+ key.getEmail()+" updated\"}";
-        return Response.status(204)
-                .entity(result)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+        try {
+            apiQuery.updateOne(key);
+            String result = "{\"Success\" : \"" + key.getEmail() + " updated\"}";
+
+            return Response.status(200)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }catch (NotFoundException e){
+
+            return get404Response(key.getEmail());
+        }
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     public Response removeCharacter(API_Key key){
 
-        apiQuery.delete(key);
-        String result = "{\"Response\" : \""+ key.getEmail()+" deleted\"}";
-        return Response.status(204)
+        try {
+            apiQuery.delete(key);
+            String result = "{\"Success\" : \"" + key.getEmail() + " deleted\"}";
+            return Response.status(200)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }catch (NotFoundException e){
+
+            return get404Response(key.getEmail());
+        }
+    }
+
+    private boolean checkKey(API_Key key) {
+
+        return key.getEmail()!=null &&
+                key.getCharacters()!=null &&
+                key.getCharacters().size()!= 0 &&
+                key.getApi()!=null;
+    }
+
+    private Response get404Response(String id) {
+
+        String result = "{\"Failed\" : \"" + id + " Not Found\"}";
+        return Response.status(404)
                 .entity(result)
                 .type(MediaType.APPLICATION_JSON)
                 .build();

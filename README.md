@@ -5,6 +5,7 @@
   - MongoDB is a document based NoSQL database. 
   - Currently evaluating its potential for a future applications
   - Dependent on a MongoDB connection
+  - Binded on Port 8080
   - ~~Connection info, database name and collections have all been hardcoded~~
     - 07/04/2019 update: added resources folder with system.properties file, removed the hardcoding for portability
 
@@ -16,6 +17,8 @@
 `GET /person/list`
 
 **Response**
+
+-`404 Not Found` on failure
 
 -`200 OK` on success
 
@@ -36,6 +39,8 @@
 `GET /person/<email>` e.g. <email> = pmckenna25@gmail.co.uk
 
 **Response**
+
+-`404 Not Found` on failure
 
 -`200 OK` on success
 
@@ -62,7 +67,9 @@
 
 **Response**
 
-`201 Created` on success
+-`500 Internal Server Error` on failure
+
+-`201 Created` on success
 
 ```json
 {
@@ -84,7 +91,9 @@
 
 **Response**
 
-`200 OK` on success
+-`404 Not Found` on failure
+
+-`200 OK` on success
 
 ```json
 {
@@ -107,7 +116,9 @@
 
 **Response**
 
-`200 OK` on success
+-`404 Not Found` on failure
+
+-`200 OK` on success
 
 ```json
 {
@@ -122,6 +133,8 @@
 `GET /character/list`
 
 **Response**
+
+-`404 Not Found` on failure
 
 -`200 OK` on success
 
@@ -147,6 +160,8 @@
 `GET /character/<characterId>` e.g. <characterId> = 102
 
 **Response**
+
+-`404 Not Found` on failure
 
 -`200 OK` on success
 
@@ -181,7 +196,9 @@
 
 **Response**
 
-`201 Created` on success
+-`500 Internal Server Error` on failure
+
+-`201 Created` on success
 
 ```json
 {
@@ -206,7 +223,9 @@
 
 **Response**
 
-`200 OK` on success
+-`404 Not Found` on failure
+
+-`200 OK` on success
 
 ```json
 {
@@ -232,7 +251,9 @@
 
 **Response**
 
-`200 OK` on success
+-`404 Not Found` on failure
+
+-`200 OK` on success
 
 ```json
 {
@@ -247,6 +268,8 @@
 `GET /key/list`
 
 **Response**
+
+-`404 Not Found` on failure
 
 -`200 OK` on success
 
@@ -269,6 +292,8 @@
 `GET /key/<email>` e.g. <email> = pmckenna25@hotmail.co.uk
 
 **Response**
+
+-`404 Not Found` on failure
 
 -`200 OK` on success
 
@@ -296,7 +321,9 @@
 
 **Response**
 
-`201 Created` on success
+-`500 Internal Server Error` on failure
+
+-`201 Created` on success
 
 ```json
 {
@@ -317,7 +344,9 @@
 
 **Response**
 
-`200 OK` on success
+-`404 Not Found` on failure
+
+-`200 OK` on success
 
 ```json
 {
@@ -339,7 +368,9 @@
 
 **Response**
 
-`200 OK` on success
+-`404 Not Found` on failure
+
+-`200 OK` on success
 
 ```json
 {
@@ -355,7 +386,9 @@
 
 **Response**
 
-`200 OK` on success
+-`404 Not Found` on failure
+
+-`200 OK` on success
 
 ```json
 [

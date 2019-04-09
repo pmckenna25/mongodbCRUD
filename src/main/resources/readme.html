@@ -10,6 +10,8 @@
 
     <li>Dependent on a MongoDB connection</li>
 
+    <li>Binded on Port 8080</li>
+
     <li>~~Connection info, database name and collections have all been hardcoded~~
 
 
@@ -25,6 +27,8 @@
 <p><code>GET /person/list</code></p>
 
 <p><strong>Response</strong></p>
+
+<p>-<code>404 Not Found</code> on failure</p>
 
 <p>-<code>200 OK</code> on success</p>
 
@@ -42,9 +46,11 @@
 
 <p><strong>Definition</strong></p>
 
-<p><code>GET /person/&lt;email&gt;</code> e.g. email = pmckenna25@gmail.co.uk</p>
+<p><code>GET /person/&lt;email&gt;</code> e.g. <email> = pmckenna25@gmail.co.uk</p>
 
 <p><strong>Response</strong></p>
+
+<p>-<code>404 Not Found</code> on failure</p>
 
 <p>-<code>200 OK</code> on success</p>
 
@@ -76,7 +82,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>201 Created</code> on success</p>
+<p>-<code>500 Internal Server Error</code> on failure</p>
+
+<p>-<code>201 Created</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;user email&gt; added"
@@ -103,7 +111,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>200 OK</code> on success</p>
+<p>-<code>404 Not Found</code> on failure</p>
+
+<p>-<code>200 OK</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;user email&gt; updated"
@@ -130,7 +140,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>200 OK</code> on success</p>
+<p>-<code>404 Not Found</code> on failure</p>
+
+<p>-<code>200 OK</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;user email&gt; deleted"
@@ -144,6 +156,8 @@
 <p><code>GET /character/list</code></p>
 
 <p><strong>Response</strong></p>
+
+<p>-<code>404 Not Found</code> on failure</p>
 
 <p>-<code>200 OK</code> on success</p>
 
@@ -166,9 +180,11 @@
 
 <p><strong>Definition</strong></p>
 
-<p><code>GET /character/&lt;characterId&gt;</code> e.g. characterId = 102</p>
+<p><code>GET /character/&lt;characterId&gt;</code> e.g. <characterId> = 102</p>
 
 <p><strong>Response</strong></p>
+
+<p>-<code>404 Not Found</code> on failure</p>
 
 <p>-<code>200 OK</code> on success</p>
 
@@ -211,7 +227,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>201 Created</code> on success</p>
+<p>-<code>500 Internal Server Error</code> on failure</p>
+
+<p>-<code>201 Created</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;characterId&gt; added"
@@ -244,7 +262,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>200 OK</code> on success</p>
+<p>-<code>404 Not Found</code> on failure</p>
+
+<p>-<code>200 OK</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;characterId&gt; updated"
@@ -277,7 +297,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>200 OK</code> on success</p>
+<p>-<code>404 Not Found</code> on failure</p>
+
+<p>-<code>200 OK</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;characterId&gt; deleted"
@@ -291,6 +313,8 @@
 <p><code>GET /key/list</code></p>
 
 <p><strong>Response</strong></p>
+
+<p>-<code>404 Not Found</code> on failure</p>
 
 <p>-<code>200 OK</code> on success</p>
 
@@ -310,9 +334,11 @@
 
 <p><strong>Definition</strong></p>
 
-<p><code>GET /key/&lt;email&gt;</code> e.g. email = pmckenna25@hotmail.co.uk</p>
+<p><code>GET /key/&lt;email&gt;</code> e.g. <email> = pmckenna25@hotmail.co.uk</p>
 
 <p><strong>Response</strong></p>
+
+<p>-<code>404 Not Found</code> on failure</p>
 
 <p>-<code>200 OK</code> on success</p>
 
@@ -344,7 +370,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>201 Created</code> on success</p>
+<p>-<code>500 Internal Server Error</code> on failure</p>
+
+<p>-<code>201 Created</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;email&gt; added"
@@ -369,7 +397,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>200 OK</code> on success</p>
+<p>-<code>404 Not Found</code> on failure</p>
+
+<p>-<code>200 OK</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;key&gt; updated"
@@ -394,7 +424,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>200 OK</code> on success</p>
+<p>-<code>404 Not Found</code> on failure</p>
+
+<p>-<code>200 OK</code> on success</p>
 
 <pre><code class="json language-json">{
   "Response": "&lt;key&gt; deleted"
@@ -409,7 +441,9 @@
 
 <p><strong>Response</strong></p>
 
-<p><code>200 OK</code> on success</p>
+<p>-<code>404 Not Found</code> on failure</p>
+
+<p>-<code>200 OK</code> on success</p>
 
 <pre><code class="json language-json">[
     {
@@ -435,4 +469,4 @@
         "level": 5
     }
 ]
-</code></pre>>
+</code></pre>

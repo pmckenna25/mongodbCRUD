@@ -3,6 +3,7 @@ package repository;
 import com.mongodb.client.MongoCollection;
 import model.Person;
 
+import javax.ws.rs.NotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 import static com.mongodb.client.model.Filters.eq;
@@ -22,7 +23,12 @@ public class MongodbPersonRepo {
 
     public List<Person> getAll(){
 
-        return collection.find().into(new LinkedList<>());
+        List<Person> fullList = collection.find().into(new LinkedList<>());
+        if(fullList.size() == 0){
+            throw new NotFoundException();
+        }else{
+            return fullList;
+        }
     }
     public void addOne(Person person){
 
@@ -31,12 +37,20 @@ public class MongodbPersonRepo {
 
     public void delete(Person person){
 
-        collection.deleteOne(eq("email", person.getEmail()));
+        if(collection.find(eq("email", person.getEmail())).into(new LinkedList<>()).size() == 0){
+            throw new NotFoundException();
+        }else {
+            collection.deleteOne(eq("email", person.getEmail()));
+        }
     }
 
     public void updateOne(Person person){
 
-        collection.replaceOne(eq("email", person.getEmail()), person);
+        if(collection.find(eq("email", person.getEmail())).into(new LinkedList<>()).size() == 0){
+            throw new NotFoundException();
+        }else {
+            collection.replaceOne(eq("email", person.getEmail()), person);
+        }
     }
 
     public Person findPersonByEmail(String email){
@@ -47,6 +61,6 @@ public class MongodbPersonRepo {
                 return person;
             }
         }
-        return null;
+        throw new NotFoundException();
     }
 }

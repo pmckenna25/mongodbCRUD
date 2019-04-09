@@ -12,6 +12,7 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -40,9 +41,21 @@ public class CrossCollectionController {
     @GET
     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<CharacterClass> getEmailCharacters(@PathParam("email") String email){
+    public Response getEmailCharacters(@PathParam("email") String email){
 
-        return getAllPersonOwnedCharacters(peopleQuery.findPersonByEmail(email));
+        List<CharacterClass> characters = getAllPersonOwnedCharacters(peopleQuery.findPersonByEmail(email));
+        if(characters.size() == 0){
+
+            String result = "{\"Failed\" : \"Not Found\"}";
+            return Response.status(404)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }else{
+
+            return Response.ok(characters, MediaType.APPLICATION_JSON)
+                    .build();
+        }
     }
 
     private List<CharacterClass> getAllPersonOwnedCharacters(Person person) {

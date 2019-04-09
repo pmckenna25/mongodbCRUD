@@ -13,7 +13,7 @@ import java.nio.file.Paths;
 import java.util.Objects;
 
 @Path("")
-public class Welcome {
+public class ReadMeController {
 
     @GET
     @Produces(MediaType.TEXT_HTML)

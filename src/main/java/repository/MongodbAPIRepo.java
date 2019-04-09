@@ -3,6 +3,7 @@ package repository;
 import com.mongodb.client.MongoCollection;
 import model.API_Key;
 
+import javax.ws.rs.NotFoundException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,7 +22,12 @@ public class MongodbAPIRepo {
 
     public List<API_Key> getAll(){
 
-        return collection.find().into(new LinkedList<>());
+        List<API_Key> fullList = collection.find().into(new LinkedList<>());
+        if(fullList.size() == 0){
+            throw new NotFoundException();
+        }else{
+            return fullList;
+        }
     }
 
     public API_Key findOne(String email){
@@ -32,7 +38,7 @@ public class MongodbAPIRepo {
                 return key;
             }
         }
-        return null;
+        throw new NotFoundException();
     }
 
     public void addOne(API_Key key){
@@ -42,11 +48,19 @@ public class MongodbAPIRepo {
 
     public void delete(API_Key key){
 
-        collection.deleteOne(eq("email", key.getEmail()));
+        if(collection.find(eq("email", key.getEmail())).into(new LinkedList<>()).size() == 0){
+            throw new NotFoundException();
+        }else {
+            collection.deleteOne(eq("email", key.getEmail()));
+        }
     }
 
     public void updateOne(API_Key key){
 
-        collection.replaceOne(eq("email", key.getEmail()), key);
+        if(collection.find(eq("email", key.getEmail())).into(new LinkedList<>()).size() == 0){
+            throw new NotFoundException();
+        }else {
+            collection.replaceOne(eq("email", key.getEmail()), key);
+        }
     }
 }

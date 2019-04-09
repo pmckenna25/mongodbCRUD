@@ -6,6 +6,7 @@ import repository.MongodbPersonRepo;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.NotFoundException;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -33,53 +34,110 @@ public class PersonController {
     @GET
     @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
-    public List<Person> getAllPeople(){
+    public Response getAllPeople(){
 
-        return peopleQuery.getAll();
+        try {
+
+            List<Person> results = peopleQuery.getAll();
+            return Response.ok(results, MediaType.APPLICATION_JSON)
+                    .build();
+
+        }catch(NotFoundException e){
+
+            return get404Response("");
+        }
+
     }
 
     @GET
     @Path("/{email}")
     @Produces(MediaType.APPLICATION_JSON)
-    public Person getOneCharacter(@PathParam("email") String email){
+    public Response getOnePerson(@PathParam("email") String email){
 
-        return peopleQuery.findPersonByEmail(email);
+        try {
+
+            Person result = peopleQuery.findPersonByEmail(email);
+            return Response.ok(result, MediaType.APPLICATION_JSON)
+                    .build();
+
+        }catch(NotFoundException e){
+
+            return get404Response(email);
+        }
     }
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addNewPerson(Person person){
 
-        peopleQuery.addOne(person);
-        String result = "{\"Response\" : \""+person.getEmail()+" added\"}";
+        if(!checkPerson(person)){
 
-        return Response.status(201)
-                .entity(result)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+            String result = "{\"Failed\" : \"All fields required\"}";
+            return Response.status(500)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+
+        }else {
+
+            peopleQuery.addOne(person);
+            String result = "{\"Success\" : \"" + person.getEmail() + " added\"}";
+
+            return Response.status(201)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }
     }
 
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updatePerson(Person person){
 
-        peopleQuery.updateOne(person);
-        String result = "{\"Response\" : \""+person.getEmail()+" updated\"}";
+        try {
+            peopleQuery.updateOne(person);
+            String result = "{\"Success\" : \"" + person.getEmail() + " updated\"}";
 
-        return Response.status(200)
-                .entity(result)
-                .type(MediaType.APPLICATION_JSON)
-                .build();
+            return Response.status(200)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
+        }catch (NotFoundException e){
+
+            return get404Response(person.getEmail());
+        }
     }
 
     @DELETE
     @Consumes(MediaType.APPLICATION_JSON)
     public Response removePerson(Person person){
 
-        peopleQuery.delete(person);
-        String result = "{\"Response\" : \""+person.getEmail()+" deleted\"}";
+        try {
+            peopleQuery.delete(person);
+            String result = "{\"Success\" : \"" + person.getEmail() + " deleted\"}";
+            return Response.status(200)
+                    .entity(result)
+                    .type(MediaType.APPLICATION_JSON)
+                    .build();
 
-        return Response.status(200)
+        }catch(NotFoundException e){
+
+            return get404Response(person.getEmail());
+        }
+    }
+
+    private boolean checkPerson(Person person) {
+
+        return person.getEmail()!=null &&
+                person.getForename()!=null &&
+                person.getSurname()!=null &&
+                person.getPassword()!=null;
+    }
+
+    private Response get404Response(String id) {
+
+        String result = "{\"Failed\" : \"" + id + " Not Found\"}";
+        return Response.status(404)
                 .entity(result)
                 .type(MediaType.APPLICATION_JSON)
                 .build();
